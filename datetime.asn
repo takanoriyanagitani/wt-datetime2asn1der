@@ -1,0 +1,65 @@
+PackedDateTime DEFINITIONS ::=
+BEGIN
+
+-- 01234567 89abcdef ghijklmn opqrstuv wxyzABCD EFGHIJKL
+-- 01234567 89abcdef 01234567 89abcdef 01234567 89abcdef
+-- 01234567 89abc012 30123401 23450123 45012345 6789abcd
+-- 01234567 89abc 0123 01234 012345 012345 0123456789abcd
+-- year(1-8191)   mon  hour  min    sec    ms(0.0 - 999.9)
+-- 01234567 89abc def  ghijk lmnopq rstuvw xyzABCDEFGHIJKL
+FixedBytes48bits ::= OCTET STRING (SIZE(6))
+
+-- prefix: day 1 -> 0x8006
+-- prefix: day 2 -> 0x8106
+-- prefix: day 3 -> 0x8206
+-- ...
+-- prefix: day 31 -> 0x9e06
+Packed ::= CHOICE {
+	day1 [0] IMPLICIT FixedBytes48bits,
+	day2 [1] IMPLICIT FixedBytes48bits,
+	day3 [2] IMPLICIT FixedBytes48bits,
+	day4 [3] IMPLICIT FixedBytes48bits,
+	day5 [4] IMPLICIT FixedBytes48bits,
+	day6 [5] IMPLICIT FixedBytes48bits,
+	day7 [6] IMPLICIT FixedBytes48bits,
+	day8 [7] IMPLICIT FixedBytes48bits,
+	day9 [8] IMPLICIT FixedBytes48bits,
+	day10 [9] IMPLICIT FixedBytes48bits,
+	day11 [10] IMPLICIT FixedBytes48bits,
+	day12 [11] IMPLICIT FixedBytes48bits,
+	day13 [12] IMPLICIT FixedBytes48bits,
+	day14 [13] IMPLICIT FixedBytes48bits,
+	day15 [14] IMPLICIT FixedBytes48bits,
+	day16 [15] IMPLICIT FixedBytes48bits,
+	day17 [16] IMPLICIT FixedBytes48bits,
+	day18 [17] IMPLICIT FixedBytes48bits,
+	day19 [18] IMPLICIT FixedBytes48bits,
+	day20 [19] IMPLICIT FixedBytes48bits,
+	day21 [20] IMPLICIT FixedBytes48bits,
+	day22 [21] IMPLICIT FixedBytes48bits,
+	day23 [22] IMPLICIT FixedBytes48bits,
+	day24 [23] IMPLICIT FixedBytes48bits,
+	day25 [24] IMPLICIT FixedBytes48bits,
+	day26 [25] IMPLICIT FixedBytes48bits,
+	day27 [26] IMPLICIT FixedBytes48bits,
+	day28 [27] IMPLICIT FixedBytes48bits,
+	day29 [28] IMPLICIT FixedBytes48bits,
+	day30 [29] IMPLICIT FixedBytes48bits,
+	day31 [30] IMPLICIT FixedBytes48bits
+}
+
+Year8191fixed16bitsLE ::= OCTET STRING (SIZE(2))
+Us0to999900fixed16bitsLE ::= OCTET STRING (SIZE(2))
+
+-- 25 bytes
+Unpacked ::= SEQUENCE { -- 23 bytes
+	year  [0] IMPLICIT Year8191fixed16bitsLE,   -- 4 bytes
+	month [1] IMPLICIT INTEGER,                 -- 3 bytes
+	day   [2] IMPLICIT INTEGER,                 -- 3 bytes
+	hour  [3] IMPLICIT INTEGER,                 -- 3 bytes
+	min   [4] IMPLICIT INTEGER,                 -- 3 bytes
+	sec   [5] IMPLICIT INTEGER,                 -- 3 bytes
+	us    [6] IMPLICIT Us0to999900fixed16bitsLE -- 4 bytes
+}
+
+END
